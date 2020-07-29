@@ -1,0 +1,47 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+#game_container {
+    width:750px;
+    height:750px;
+    border:2px solid black;
+}
+
+.game_square {
+    width:250px;
+    height:250px;
+    float:left;
+    font-size:16px;
+    text-align:center;
+    
+}
+
+.game_square p {
+    display: flex; /* Copied from w3schools, about centering verticlly*/
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    font-size:108px;
+
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+
+    font-family: 'Bangers', cursive;
+
+}
+
+#white_square {
+    background-color:white;
+    color:black;
+}
+
+#black_square {
+    background-color:black;
+    color:white;
+}
+
+
