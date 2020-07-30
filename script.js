@@ -56,6 +56,7 @@ const gameBoard = (() => {
         }
     };
     
+    
 
 
     //this function adds all the event listeners.
@@ -85,6 +86,7 @@ const Player = (inputMarker) => {
 const gameController = (() => {
     let players;
     let whosTurn;
+    let gameOver;
     let clickCount = 0;
 
     let checkWin = () => {
@@ -101,13 +103,14 @@ const gameController = (() => {
         }
     };
     let endGame = (winner) => {
+        let elem = infoBox.querySelector("#winner");
         if (winner == "-") {
-            infoBox.textContent = "It's a tie.";
+            elem.textContent = "It's a tie.";
         }
         else {
-            infoBox.textContent = winner + " Is the winner!";
+            elem.textContent = winner + " Is the winner!";
         }
-        
+        gameOver = true;
 
 
     }
@@ -120,19 +123,22 @@ const gameController = (() => {
         }
     }
     let turn = (clickedElement) => {
-        whosTurn.clicked(clickedElement);
-        gameBoard.updateScoreBoard(clickedElement,whosTurn);
-        clickCount++;
-        if (checkWin() == "X") {
-            endGame("X");
+        if (!gameOver) {
+            console.log("im here");
+            whosTurn.clicked(clickedElement);
+            gameBoard.updateScoreBoard(clickedElement,whosTurn);
+            clickCount++;
+            if (checkWin() == "X") {
+                endGame("X");
+            }
+            else if (checkWin() == "O") {
+                endGame("O");
+            }
+            else if (checkWin() == "-") {
+                endGame("-");
+            }
+            toggleTurn();
         }
-        else if (checkWin() == "O") {
-            endGame("O");
-        }
-        else if (checkWin() == "-") {
-            endGame("-");
-        }
-        toggleTurn();
     }
     
     let setPlayers = (player1,player2) => {
@@ -142,17 +148,19 @@ const gameController = (() => {
     let startGame = (player1,player2) => {
         gameBoard.initialization();
         gameBoard.render();
-        gameController.setPlayers(player1,player2);
+        setPlayers(player1,player2);
+        gameOver = false;
+        clickCount = 0;
     }
-    return {turn,setPlayers,startGame};
+    return {gameOver,turn,setPlayers,startGame};
 })();
 
 let clear_btn = document.querySelector("#clear_btn");
 clear_btn.addEventListener("click", () => {
     gameBoard.clear();
-    gameBoard.render();
-})
+    let player1 = Player("X");
+    let player2 = Player("O");
+    gameController.startGame(player1,player2);
+    infoBox.children[0].textContent = "";
+});
 
-let player1 = Player("X");
-let player2 = Player("O");
-gameController.startGame(player1,player2);
